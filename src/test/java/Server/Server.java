@@ -42,24 +42,25 @@ public class Server {
         public void run() {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_demo?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC","root","password");
+                conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ChatRoom?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC","root","QWEasd.123");
                 InputStream in=socket2.getInputStream();
                 byte[] mes=new byte[1024];
                 in.read(mes);
                 String logm=new String(mes);
-                String username=logm.substring(0,logm.indexOf("/"));
-                String password=logm.substring(logm.indexOf("/")+1);
-                String sql="select uid from User where uid="+username;
+                //String username=logm.substring(0,logm.indexOf("/"));
+                //String password=logm.substring(logm.indexOf("/")+1);
+                String sql="select uid from User where uid="+"'"+logm+"'"+";";
+                System.out.println(sql);
                 Statement statement = conn.createStatement();
                 ResultSet result = statement.executeQuery(sql);
-                if(result.wasNull()){
-                    System.out.println("no user!");
-                }
-                else{
+                if(result.next()){
                     System.out.println("welcome!");
                     Server s=new Server();
                     Thread1 thread1 = s.new Thread1(socket2);
                     thread1.start();
+                }
+                else{
+                    System.out.println("no user!");
                 }
             } catch (ClassNotFoundException | SQLException | IOException e) {
                 e.printStackTrace();
