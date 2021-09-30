@@ -1,4 +1,6 @@
 //package Server;
+
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -6,8 +8,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.sql.*;
+import java.util.HashMap;
+
+
 public class Server {
     private ArrayList<Socket> onlinelist=new ArrayList<Socket>();
+    private HashMap<String, Socket> idsocektmap = new HashMap<>();
     class Thread1 extends Thread{
         //聊天线程
         Socket socket;
@@ -15,8 +21,10 @@ public class Server {
             this.socket=socket;
         }
         public void run(){
+            //监听是否有新消息发送
             System.out.println(socket.getInetAddress()+"scuessly connect!");
             onlinelist.add(socket);
+
             while(true){
                 try{
                     InputStream in=socket.getInputStream();
@@ -28,6 +36,7 @@ public class Server {
                 }catch (IOException e){
                     System.out.println(socket.getLocalAddress()+" is disconnect!");
                     onlinelist.remove(socket);
+                    idsocektmap.remove(socket);
                     break;
                 }
             }
@@ -49,6 +58,7 @@ public class Server {
                 String logm=new String(mes);
                 //String username=logm.substring(0,logm.indexOf("/"));
                 //String password=logm.substring(logm.indexOf("/")+1);
+                //从数据库中查询
                 String sql="select uid from User where uid="+"'"+logm+"'"+";";
                 System.out.println(sql);
                 Statement statement = conn.createStatement();
@@ -56,6 +66,8 @@ public class Server {
                 if(result.next()){
                     System.out.println("welcome!");
                     Server s=new Server();
+                    //验证成功，启动聊天线程
+                    idsocektmap.put(logm,socket2);
                     Thread1 thread1 = s.new Thread1(socket2);
                     thread1.start();
                 }
