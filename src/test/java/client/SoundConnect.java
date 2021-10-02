@@ -152,7 +152,7 @@ public class SoundConnect {
     //Test
     public static void main(String[] args) throws InterruptedException{
 
-        SoundConnect player = new SoundConnect("4.wav");   //创建音乐播放器
+        SoundConnect player = new SoundConnect("test.wav");   //创建音乐播放器
 
         player.start(false);                                        //以开始以循环的形式播放，player(false)为不循环播放
         player.stop();                        //暂停播放音频
