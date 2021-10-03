@@ -40,7 +40,7 @@ public class Sound {
         InputStream in = null;
         OutputStream out=null;
         try {
-           Socket socket = new Socket("1.15.226.19",7777);
+           Socket socket = new Socket("1.15.226.19",9999);
            in=socket.getInputStream();
            out=socket.getOutputStream();
 
@@ -59,18 +59,17 @@ public class Sound {
         sourceDataLine.open(format);
         sourceDataLine.start();
 
-        byte[] b = new byte[10];
-        byte[] c = new byte[10];
+        byte[] b = new byte[1024];
+        byte[] c = new byte[1024];
         int a = 0;
         int m=0;
         while(a!=-1) {
            // System.out.println("录制中");
-          // a = targetDataLine.read(b, 0, b.length);//捕获录音数据
+          a = targetDataLine.read(b, 0, b.length);//捕获录音数据
 
            // System.out.println(b.length);
             if(a!=-1) {
-               // out.write(b, 0, a);//转发录制的声音
-
+                out.write(b, 0, a);//转发录制的声音
                m=in.read(c,0,c.length);
                sourceDataLine.write(c, 0,m);
 
