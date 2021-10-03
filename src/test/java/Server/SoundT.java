@@ -21,6 +21,8 @@ public class SoundT {
             //监听是否有新消息发送
             System.out.println(socket.getInetAddress()+"scuessly connect!");
             onlinelist.add(socket);
+            for(int i=0;i<onlinelist.size();i++)
+                System.out.println(onlinelist.get(i));
             try{
                 int count;
                 in = socket.getInputStream();
@@ -28,7 +30,7 @@ public class SoundT {
                 while((count = in.read(tempBuff,0,tempBuff.length))!=-1) {
                     for(int i=0;i<onlinelist.size();i++){
                         if(onlinelist.get(i).equals(socket))
-                            continue;
+                         continue;
                         OutputStream out=onlinelist.get(i).getOutputStream();
                         out.write(tempBuff);
                     }
