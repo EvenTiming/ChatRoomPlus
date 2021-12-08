@@ -25,6 +25,7 @@ public class Server {
             System.out.println(socket.getInetAddress()+"scuessly connect!");
             onlinelist.add(socket);
 
+
             while(true){
                 try{
                     InputStream in=socket.getInputStream();

@@ -27,6 +27,7 @@ public class ChatRoom {
 	public static void main(String[] args) {
 		try {
 			socket = new Socket("1.15.226.19",9999);
+			System.out.println(socket);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
